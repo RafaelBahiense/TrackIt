@@ -11,7 +11,9 @@ export default function Login () {
     const [loaderStatus, setLoaderStatus] = React.useState({button : "Cadastrar", disabled : false, error : ""});
     const history = useHistory();
 
-    function register () {
+    function register (event) {
+        event.preventDefault();
+
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", registerInfos)
         loaderStatus.button =(<Loader type="ThreeDots" color="#FFFFFF" height={13} width={51} />);
         loaderStatus.disabled = true;
@@ -29,29 +31,33 @@ export default function Login () {
     return (
         <AuthWrapper disabled={loaderStatus.disabled}>
             <img src={Logo} alt={"Logo"}></img>
-            <span>{loaderStatus.error}</span>
-            <input placeholder={"email"}
-                   value={ registerInfos.email } 
-                   onChange={ (e) => { registerInfos.email = e.target.value; setRegisterInfos({...registerInfos}) } }
-                   disabled={loaderStatus.disabled ? "disabled" : ""}
-            />
-            <input placeholder={"senha"}
-                   type={"password"}
-                   value={ registerInfos.password }
-                   onChange={ (e) => { registerInfos.password = e.target.value; setRegisterInfos({...registerInfos}) } }
-                   disabled={loaderStatus.disabled ? "disabled" : ""}
-            />
-            <input placeholder={"nome"}
-                   value={ registerInfos.name }
-                   onChange={ (e) => { registerInfos.name = e.target.value; setRegisterInfos({...registerInfos}) } }
-                   disabled={loaderStatus.disabled ? "disabled" : ""}
-            />
-            <input placeholder={"foto"}
-                   value={ registerInfos.image }
-                   onChange={ (e) => { registerInfos.image = e.target.value; setRegisterInfos({...registerInfos}) } }
-                   disabled={loaderStatus.disabled ? "disabled" : ""}
-            />
-            <button onClick={register}>{loaderStatus.button}</button>
+            <form onSubmit={register}>
+                <span>{loaderStatus.error}</span>
+                <input placeholder={"email"}
+                    type={"email"}
+                    value={ registerInfos.email } 
+                    onChange={ (e) => { registerInfos.email = e.target.value; setRegisterInfos({...registerInfos}) } }
+                    disabled={loaderStatus.disabled ? "disabled" : ""}
+                />
+                <input placeholder={"senha"}
+                    type={"password"}
+                    value={ registerInfos.password }
+                    onChange={ (e) => { registerInfos.password = e.target.value; setRegisterInfos({...registerInfos}) } }
+                    disabled={loaderStatus.disabled ? "disabled" : ""}
+                />
+                <input placeholder={"nome"}
+                    value={ registerInfos.name }
+                    onChange={ (e) => { registerInfos.name = e.target.value; setRegisterInfos({...registerInfos}) } }
+                    disabled={loaderStatus.disabled ? "disabled" : ""}
+                />
+                <input placeholder={"foto"}
+                    type={"url"}
+                    value={ registerInfos.image }
+                    onChange={ (e) => { registerInfos.image = e.target.value; setRegisterInfos({...registerInfos}) } }
+                    disabled={loaderStatus.disabled ? "disabled" : ""}
+                />
+                <button type={"submit"}>{loaderStatus.button}</button>
+            </form>
             <Link to={"/"}>
                 <p>Já tem uma conta? Faça login!</p>
             </Link>

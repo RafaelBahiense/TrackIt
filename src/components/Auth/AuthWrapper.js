@@ -3,7 +3,9 @@ import styled from "styled-components";
 const AuthWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    min-height: 667px;
     padding: 68px 36px;
+    background: #FFFFFF;
 
     img {
         width: 180px;
@@ -13,6 +15,7 @@ const AuthWrapper = styled.div`
     }
 
     input {
+        width: 303px;
         height: 45px;
         margin-top: 6px;
         border-radius: 5px;
@@ -31,6 +34,7 @@ const AuthWrapper = styled.div`
     }
 
     button {
+        width: 303px;
         height: 45px;
         margin-top: 6px;
         border-radius: 5px;

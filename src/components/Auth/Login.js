@@ -11,7 +11,9 @@ export default function Login () {
     const [loaderStatus, setLoaderStatus] = React.useState({button : "Entrar", disabled : false, error : ""});
     const history = useHistory();
 
-    function logIn () {
+    function logIn (event) {
+        event.preventDefault();
+
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", loginInfos);
         loaderStatus.button =(<Loader type="ThreeDots" color="#FFFFFF" height={13} width={51} />);
         loaderStatus.disabled = true;
@@ -29,19 +31,24 @@ export default function Login () {
     return (
         <AuthWrapper disabled={loaderStatus.disabled}>
             <img src={Logo} alt={"Logo"}></img>
-            <span>{loaderStatus.error}</span>
-            <input placeholder={"email"}
-                   value={ loginInfos.email } 
-                   onChange={ (e) => { loginInfos.email = e.target.value; setLoginInfos({...loginInfos}) } }
-                   disabled={loaderStatus.disabled ? "disabled" : ""}
-            />
-            <input placeholder={"senha"}
-                   type={"password"}
-                   value={ loginInfos.password }
-                   onChange={ (e) => { loginInfos.password = e.target.value; setLoginInfos({...loginInfos}) } }
-                   disabled={loaderStatus.disabled ? "disabled" : ""}
-            />
-            <button onClick={logIn}>{loaderStatus.button}</button>
+            <form onSubmit={logIn}>
+                <span>{loaderStatus.error}</span>
+                <input placeholder={"email"}
+                    type={"email"}
+                    value={ loginInfos.email } 
+                    onChange={ (e) => { loginInfos.email = e.target.value; setLoginInfos({...loginInfos}) } }
+                    required
+                    disabled={loaderStatus.disabled ? "disabled" : ""}
+                />
+                <input placeholder={"senha"}
+                    type={"password"}
+                    value={ loginInfos.password }
+                    onChange={ (e) => { loginInfos.password = e.target.value; setLoginInfos({...loginInfos}) } }
+                    required
+                    disabled={loaderStatus.disabled ? "disabled" : ""}
+                />
+                <button type={"submit"}>{loaderStatus.button}</button>
+            </form>
             <Link to={"/cadastro"}>
                 <p>Não tem uma conta? Cadastre-se!</p>            
             </Link>

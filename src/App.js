@@ -3,7 +3,10 @@ import styled from "styled-components";
 
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
+import Header from "./components/shared/Header";
+import Menu from "./components/shared/Menu";
 import Habits from "./components/Habits/Habits";
+
 
 import ResetCSS from "./styles/ResetCSS";
 import GlobalCSS from "./styles/GlobalCSS";
@@ -22,7 +25,9 @@ export default function App () {
                         <Register/>
                     </Route>
                     <Route path="/habitos" exact={true}>
+                        <Header/>
                         <Habits/>
+                        <Menu/>
                     </Route>
                 </Switch>
             </BrowserRouter>
@@ -34,6 +39,6 @@ const AppWrapper = styled.div`
     margin: 0 auto;
     min-width: 375px;
     min-height: 667px;
-    background: #FFFFFF;
+    background: #E5E5E5;
     font-family: 'Lexend Deca', sans-serif;
 `;
