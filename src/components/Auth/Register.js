@@ -7,14 +7,18 @@ import Logo from "../../images/Logo.png";
 import AuthWrapper from "./AuthWrapper";
 
 export default function Login () {
-    const [registerInfos, setRegisterInfos] = React.useState({});
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] =  React.useState("");
+    const [name, setName] = React.useState("");
+    const [image, setImage] =  React.useState("");
     const [loaderStatus, setLoaderStatus] = React.useState({button : "Cadastrar", disabled : false, error : ""});
+    
     const history = useHistory();
 
     function register (event) {
         event.preventDefault();
 
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", registerInfos)
+        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", {email, password, name, image})
         loaderStatus.button =(<Loader type="ThreeDots" color="#FFFFFF" height={13} width={51} />);
         loaderStatus.disabled = true;
         setLoaderStatus({...loaderStatus});
@@ -35,25 +39,25 @@ export default function Login () {
                 <span>{loaderStatus.error}</span>
                 <input placeholder={"email"}
                     type={"email"}
-                    value={ registerInfos.email } 
-                    onChange={ (e) => { registerInfos.email = e.target.value; setRegisterInfos({...registerInfos}) } }
+                    value={ email } 
+                    onChange={ (e) => setEmail(e.target.value) }
                     disabled={loaderStatus.disabled ? "disabled" : ""}
                 />
                 <input placeholder={"senha"}
                     type={"password"}
-                    value={ registerInfos.password }
-                    onChange={ (e) => { registerInfos.password = e.target.value; setRegisterInfos({...registerInfos}) } }
+                    value={ password }
+                    onChange={ (e) =>  setPassword(e.target.value) }
                     disabled={loaderStatus.disabled ? "disabled" : ""}
                 />
                 <input placeholder={"nome"}
-                    value={ registerInfos.name }
-                    onChange={ (e) => { registerInfos.name = e.target.value; setRegisterInfos({...registerInfos}) } }
+                    value={ name }
+                    onChange={ (e) => setName(e.target.value) }
                     disabled={loaderStatus.disabled ? "disabled" : ""}
                 />
                 <input placeholder={"foto"}
                     type={"url"}
-                    value={ registerInfos.image }
-                    onChange={ (e) => { registerInfos.image = e.target.value; setRegisterInfos({...registerInfos}) } }
+                    value={ image }
+                    onChange={ (e) => setImage(e.target.value) }
                     disabled={loaderStatus.disabled ? "disabled" : ""}
                 />
                 <button type={"submit"}>{loaderStatus.button}</button>

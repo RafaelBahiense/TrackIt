@@ -1,10 +1,15 @@
+import { useContext }  from "react";
 import styled from "styled-components";
 
+import UserContext from "../../context/UserContext";
+
 export default function Header () {
+    const {userInfos} = useContext(UserContext);
+
     return (
         <HeaderWrapper>
             <h1>TrackIt</h1>
-            <img src={"http://s2.glbimg.com/4Ek8CnZSuYyyvaNQEPPiX_d-faA=/e.glbimg.com/og/ed/f/original/2017/11/24/gali1.jpg"}
+            <img src={userInfos.image}
                  alt={"Foto de perfil"}
             />
         </HeaderWrapper>

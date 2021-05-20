@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -5,21 +6,27 @@ import 'react-circular-progressbar/dist/styles.css';
 export default function Menu () {
     return (
         <MenuWrapper>
-            <span>Hábitos</span>
+            <Link to={"/habitos"}>
+                <span>Hábitos</span>
+            </Link>
             <div>
-                <CircularProgressbarWrapper>
-                    <CircularProgressbar 
-                    value={70}
-                    text={"Hoje"}
-                    styles={buildStyles({
-                        textColor: "#fff",
-                        textSize: '24px',
-                        pathColor: "#fff",
-                        trailColor: `rgba(0,0,0,0.0)`
-                    })} />
-                </CircularProgressbarWrapper>
+                <Link to={"/hoje"}>
+                    <CircularProgressbarWrapper>
+                        <CircularProgressbar 
+                        value={70}
+                        text={"Hoje"}
+                        styles={buildStyles({
+                            textColor: "#fff",
+                            textSize: '24px',
+                            pathColor: "#fff",
+                            trailColor: `rgba(0,0,0,0.0)`
+                        })} />
+                    </CircularProgressbarWrapper>
+                </Link>
             </div>
-            <span>Histórico</span>
+            <Link to={"/historico"}>
+                <span>Histórico</span>
+            </Link>
         </MenuWrapper>
     );
 }

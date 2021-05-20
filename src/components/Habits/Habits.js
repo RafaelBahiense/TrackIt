@@ -1,13 +1,13 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useContext }  from "react";
 import styled from "styled-components";
 
 import AddHabits from "./AddHabit";
+import UserContext from "../../context/UserContext";
 
 export default function Habits () {
     const [addHabit, setAddHabit] = React.useState(false);
-    const location = useLocation();
-    //console.log(location);
+    const {userInfos} = useContext(UserContext);
+
     return (
         <HabitsWrapper>
             <HabitsMenu>

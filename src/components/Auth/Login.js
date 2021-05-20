@@ -1,24 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import Loader from "react-loader-spinner";
 
 import Logo from "../../images/Logo.png";
 import AuthWrapper from "./AuthWrapper";
+import UserContext from "../../context/UserContext";
 
 export default function Login () {
-    const [loginInfos, setLoginInfos] = React.useState({});
     const [loaderStatus, setLoaderStatus] = React.useState({button : "Entrar", disabled : false, error : ""});
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] =  React.useState("");
+    const {setUserInfos} = useContext(UserContext);
+
     const history = useHistory();
 
     function logIn (event) {
         event.preventDefault();
 
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", loginInfos);
+        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", {email, password});
+        
         loaderStatus.button =(<Loader type="ThreeDots" color="#FFFFFF" height={13} width={51} />);
         loaderStatus.disabled = true;
         setLoaderStatus({...loaderStatus});
+        
         promise.then(response => {
+            console.log(response.data);
+            setUserInfos(response.data);
             history.push("/habitos", response.data);
         }).catch(() => {
             loaderStatus.button = "Entrar";
@@ -35,15 +43,15 @@ export default function Login () {
                 <span>{loaderStatus.error}</span>
                 <input placeholder={"email"}
                     type={"email"}
-                    value={ loginInfos.email } 
-                    onChange={ (e) => { loginInfos.email = e.target.value; setLoginInfos({...loginInfos}) } }
+                    value={ email } 
+                    onChange={ (e) =>  setEmail(e.target.value) }
                     required
                     disabled={loaderStatus.disabled ? "disabled" : ""}
                 />
                 <input placeholder={"senha"}
                     type={"password"}
-                    value={ loginInfos.password }
-                    onChange={ (e) => { loginInfos.password = e.target.value; setLoginInfos({...loginInfos}) } }
+                    value={ password }
+                    onChange={ (e) => setPassword(e.target.value) }
                     required
                     disabled={loaderStatus.disabled ? "disabled" : ""}
                 />

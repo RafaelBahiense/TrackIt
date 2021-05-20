@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 
@@ -7,31 +8,44 @@ import Header from "./components/shared/Header";
 import Menu from "./components/shared/Menu";
 import Habits from "./components/Habits/Habits";
 
+import UserContext from "./context/UserContext";
 
 import ResetCSS from "./styles/ResetCSS";
 import GlobalCSS from "./styles/GlobalCSS";
 
 export default function App () {
+    const [userInfos, setUserInfos] = React.useState({});
+
     return (
-        <AppWrapper>
-            <ResetCSS/>
-            <GlobalCSS/>
-            <BrowserRouter>
-                <Switch>
-                    <Route path="/" exact={true}>
-                        <Login/>
-                    </Route>
-                    <Route path="/cadastro" exact={true}>
-                        <Register/>
-                    </Route>
-                    <Route path="/habitos" exact={true}>
-                        <Header/>
-                        <Habits/>
-                        <Menu/>
-                    </Route>
-                </Switch>
-            </BrowserRouter>
-        </AppWrapper>
+        <UserContext.Provider value={{userInfos, setUserInfos}}>
+            <AppWrapper>
+                <ResetCSS/>
+                <GlobalCSS/>
+                <BrowserRouter>
+                    <Switch>
+                        <Route path="/" exact={true}>
+                            <Login/>
+                        </Route>
+                        <Route path="/cadastro" exact={true}>
+                            <Register/>
+                        </Route>
+                        <Route path="/habitos" exact={true}>
+                            <Header/>
+                            <Habits/>
+                            <Menu/>
+                        </Route>
+                        <Route path="/hoje" exact={true}>
+                            <Header/>
+                            <Menu/>
+                        </Route>
+                        <Route path="/historico" exact={true}>
+                            <Header/>
+                            <Menu/>
+                        </Route>
+                    </Switch>
+                </BrowserRouter>
+            </AppWrapper>
+        </UserContext.Provider>
     );
 }
 
