@@ -7,6 +7,8 @@ import Register from "./components/Auth/Register";
 import Header from "./components/shared/Header";
 import Menu from "./components/shared/Menu";
 import Habits from "./components/Habits/Habits";
+import Today from "./components/Today/Today";
+import History from "./components/History/History";
 
 import UserContext from "./context/UserContext";
 
@@ -36,10 +38,12 @@ export default function App () {
                         </Route>
                         <Route path="/hoje" exact={true}>
                             <Header/>
+                            <Today/>
                             <Menu/>
                         </Route>
                         <Route path="/historico" exact={true}>
                             <Header/>
+                            <History/>
                             <Menu/>
                         </Route>
                     </Switch>

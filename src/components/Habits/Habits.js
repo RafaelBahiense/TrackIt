@@ -24,7 +24,6 @@ export default function Habits () {
         }
         
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
-        console.log("refresed habits")
         promise.then((response) => {
             setHabits(response.data);
         }).catch(() => {

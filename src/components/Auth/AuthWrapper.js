@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
 const AuthWrapper = styled.div`
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
+    width: 375px;
     min-height: 667px;
     padding: 68px 36px;
     background: #FFFFFF;
