@@ -10,14 +10,16 @@ export default function Habit (props) {
     const {userInfos} = useContext(UserContext)
 
     function deleteHabit () {
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${userInfos.token}`
+        if(window.confirm("Realmente gostaria de apagar o hábito?")) {
+            const config = {
+                headers: {
+                    "Authorization": `Bearer ${userInfos.token}`
+                }
             }
-        }
-        axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${props.id}`, config);
+            axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${props.id}`, config);
 
-        props.setRefresh({...props.refresh});
+            props.setRefresh({...props.refresh});
+        }
     }
 
 
