@@ -11,10 +11,11 @@ export default function Weekday (props) {
 
     return (
         <li><WeekdayWrapper isSelected={day.isSelected}
-                            onClick={() => day.isSelected 
-                                           ? toggleSelected(false)
-                                           : toggleSelected(true)
-                                    }
+                            onClick={() => {
+                                props.habit.days.indexOf(props.dayNum) === -1 ? props.habit.days.push(props.dayNum) : props.habit.days = props.habit.days.filter(item => item !== props.dayNum );
+                                props.setHabit({...props.habit})
+                                day.isSelected ? toggleSelected(false) : toggleSelected(true);
+                            }}
         >{props.day}</WeekdayWrapper></li>
     );
 }

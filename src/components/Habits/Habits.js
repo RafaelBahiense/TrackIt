@@ -1,12 +1,37 @@
-import React, { useContext }  from "react";
+import React, { useContext, useEffect }  from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 
 import AddHabits from "./AddHabit";
+import Habit from "./Habit"; 
+
 import UserContext from "../../context/UserContext";
 
 export default function Habits () {
     const [addHabit, setAddHabit] = React.useState(false);
     const {userInfos} = useContext(UserContext);
+    const [habits, setHabits] = React.useState([]);
+    const [refresh, setRefresh] = React.useState({refresh : ""});
+
+    const history = useHistory();
+
+    useEffect(() => {
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${userInfos.token}`
+            }
+        }
+        
+        const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
+        console.log("refresed habits")
+        promise.then((response) => {
+            setHabits(response.data);
+        }).catch(() => {
+            alert("Faça login novamente!");
+            history.push("/");
+        })
+    }, [refresh])
 
     return (
         <HabitsWrapper>
@@ -14,8 +39,10 @@ export default function Habits () {
                 <span>Meus hábitos</span>
                 <button onClick={() => setAddHabit(true)}>+</button>
             </HabitsMenu>
-            {addHabit ? <AddHabits setAddHabit={setAddHabit}/> : ""}
-            <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+            {addHabit ? <AddHabits setAddHabit={setAddHabit} setRefresh={setRefresh} refresh={refresh}/> : ""}
+            {habits.length > 0 
+            ? <ul>{habits.map((habit, index) => <Habit key={index} setRefresh={setRefresh} refresh={refresh} {...habit}/>)}</ul> 
+            : <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
         </HabitsWrapper>
     );
 }

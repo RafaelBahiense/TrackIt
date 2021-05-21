@@ -1,25 +1,63 @@
-import React from "react";
+import React, { useContext }  from "react";
+import axios from "axios";
 import styled from "styled-components";
+import Loader from "react-loader-spinner";
 
 import Weekday from "./Weekday";
 
+import UserContext from "../../context/UserContext";
+
 export default function AddHabits (props) {
-    const [habit, setHabit] = React.useState({});
+    const [habit, setHabit] = React.useState({name : "", days : []});
+    const [loaderStatus, setLoaderStatus] = React.useState(false);
     const weekdays = ["D","S","T","Q","Q","S","S"];
+
+    const {userInfos} = useContext(UserContext);
+
+    function addHabit () {
+        if (habit.name === "" || habit.days.length === 0) {
+            alert("Preencha seu habito!")
+        }
+        else {
+            const config = {
+                headers: {
+                    "Authorization": `Bearer ${userInfos.token}`
+                }
+            }
+            console.log(habit);
+            const promise =  axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", habit, config);
+
+            setLoaderStatus(true);
+
+            promise.then( () => {
+                props.setAddHabit(false);
+                setLoaderStatus(false);
+                props.setRefresh({...props.refresh})
+            } ).catch( (response) => {
+                    console.log(response)    
+                    setLoaderStatus(false)
+            });
+    
+        }
+    }
 
     return (
         <AddHabitsWrapper>
             <input placeholder={"nome do hábito"}
                    value={ habit.name } 
                    onChange={ (e) => { habit.name = e.target.value; setHabit({...habit}) } }
-                   disabled={habit.disabled ? "disabled" : ""}        
+                   disabled={habit.isDisabled ? "disabled" : ""}        
             />
             <Weekdays>
-                {weekdays.map((day, index) => <Weekday key={index} day={day} dayNum={index + 1}/>)}
+                {weekdays.map((day, index) => <Weekday key={index} day={day} dayNum={index} setHabit={setHabit} habit={habit}/>)}
             </Weekdays>
-            <SaveHabit>
+            <SaveHabit loaderStatus={loaderStatus}>
                 <button onClick={() => props.setAddHabit(false)}>Cancelar</button>
-                <button>Salvar</button>
+                <button onClick={addHabit} >
+                    {loaderStatus 
+                    ? (<Loader type="ThreeDots" color="#FFFFFF" height={11} width={43} />) 
+                    : "Salvar"}
+                </button>
             </SaveHabit>
         </AddHabitsWrapper>
     );
@@ -82,6 +120,7 @@ const SaveHabit = styled.div`
 
     button:last-child {
         color: #FFFFFF;
+        opacity: ${props => props.loaderStatus ? 0.7 : 1};
         background: #52B6FF;
         border-radius: 5px;
     }
