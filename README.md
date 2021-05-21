@@ -1,4 +1,4 @@
-# Cineflex - WIP
+# Cineflex
 
 Projeto da décima semana do bootcamp Responde Aí
 
