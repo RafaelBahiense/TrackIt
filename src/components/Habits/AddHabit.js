@@ -24,7 +24,6 @@ export default function AddHabits (props) {
                     "Authorization": `Bearer ${userInfos.token}`
                 }
             }
-            console.log(habit);
             const promise =  axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", habit, config);
 
             setLoaderStatus(true);
@@ -33,8 +32,8 @@ export default function AddHabits (props) {
                 props.setAddHabit(false);
                 setLoaderStatus(false);
                 props.setRefresh({...props.refresh})
-            } ).catch( (response) => {
-                    console.log(response)    
+            } ).catch( () => {
+                    alert("ouve um erro, tente novamente!")    
                     setLoaderStatus(false)
             });
     
