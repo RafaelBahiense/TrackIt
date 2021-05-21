@@ -25,7 +25,7 @@ export default function Login () {
         setLoaderStatus({...loaderStatus});
         
         promise.then(response => {
-            console.log(response.data);
+
             setUserInfos(response.data);
             history.push("/habitos", response.data);
         }).catch(() => {

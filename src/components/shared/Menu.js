@@ -1,9 +1,34 @@
+import { useEffect, useContext } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
+import UserContext from "../../context/UserContext";
+
 export default function Menu () {
+    const {userInfos} = useContext(UserContext);
+    const {habitsGoal, setHabitsGoal} = useContext(UserContext);
+
+    useEffect(() => {
+    
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${userInfos.token}`
+            }
+        }
+    
+        const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", config)
+    
+        promise.then((response) => {
+            setHabitsGoal((response.data.filter((habit) => habit.done === true).length / response.data.length).toFixed(2));
+        }).catch((response) => {
+            console.log(response);
+        })
+    },[])
+    
+
     return (
         <MenuWrapper>
             <Link to={"/habitos"}>
@@ -13,7 +38,7 @@ export default function Menu () {
                 <Link to={"/hoje"}>
                     <CircularProgressbarWrapper>
                         <CircularProgressbar 
-                        value={70}
+                        value={habitsGoal*100}
                         text={"Hoje"}
                         styles={buildStyles({
                             textColor: "#fff",

@@ -17,9 +17,10 @@ import GlobalCSS from "./styles/GlobalCSS";
 
 export default function App () {
     const [userInfos, setUserInfos] = React.useState({});
+    const [habitsGoal, setHabitsGoal] = React.useState(0);
 
     return (
-        <UserContext.Provider value={{userInfos, setUserInfos}}>
+        <UserContext.Provider value={{userInfos, setUserInfos, habitsGoal, setHabitsGoal}}>
             <AppWrapper>
                 <ResetCSS/>
                 <GlobalCSS/>

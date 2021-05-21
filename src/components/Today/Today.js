@@ -1,6 +1,8 @@
 import React, { useEffect, useContext } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
 
 import Habit from "./Habit";
 
@@ -10,8 +12,7 @@ export default function Today () {
     const [habits, setHabits] = React.useState([]);
     const {userInfos} = useContext(UserContext);
 
-    const dayjs = require('dayjs');
-    let now = dayjs().locale('pt-br');
+    const now = dayjs().locale('pt-br');
 
     useEffect(() => {
         const config = {
