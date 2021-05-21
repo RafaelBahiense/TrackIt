@@ -10,7 +10,7 @@ import UserContext from "../../context/UserContext";
 
 export default function Today () {
     const [habits, setHabits] = React.useState([]);
-    const {userInfos} = useContext(UserContext);
+    const {userInfos, habitsGoal} = useContext(UserContext);
 
     const now = dayjs().locale('pt-br');
 
@@ -34,7 +34,7 @@ export default function Today () {
         <TodayWrapper>
             <span>
                 <DayText>{now.format('dddd, DD/MM')}</DayText>
-                <HabitsGoal>Nenhum hábito concluído ainda</HabitsGoal>
+                <HabitsGoal habitsGoal={habitsGoal}>{habitsGoal > 0 ? `${habitsGoal*100}% dos hábitos concluídos` : `Nenhum hábito concluído ainda`}</HabitsGoal>
             </span>
             {habits.length > 0 
             ? <ul>{habits.map((habit, index) => <Habit key={index} {...habit}/>)}</ul> 
@@ -69,5 +69,5 @@ const DayText = styled.p`
 
 const HabitsGoal = styled.p`
     font-size: 18px;
-    color: #BABABA;
+    color: ${props => props.habitsGoal > 0 ? "#8FC549" : "#BABABA"};
 `;

@@ -52,7 +52,7 @@ const HabitsWrapper = styled.div`
 
     p {
         margin-top: 29px;
-        font-size: 17.976px;
+        font-size: 18px;
         color: #666666;
     }
 

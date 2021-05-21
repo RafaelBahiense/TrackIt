@@ -8,7 +8,8 @@ import UserContext from "../../context/UserContext";
 
 export default function Habit (props) {
     const [done, setDone] =  React.useState(props.done);
-    const {userInfos, setHabitsGoal} = useContext(UserContext);
+    const {userInfos, habitsGoal, setHabitsGoal} = useContext(UserContext);
+    const [currentSequence, setCurrentSequence] = React.useState(props.currentSequence);
 
     function toggleDone () {
         const config = {
@@ -20,6 +21,7 @@ export default function Habit (props) {
         if(done) {
             const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${props.id}/uncheck`,{}, config);
             promise.then((response) => {
+                setCurrentSequence(currentSequence - 1);
                 setDone(false);
             }
             ).catch((response) => console.log(response)
@@ -35,9 +37,10 @@ export default function Habit (props) {
         }
         else {
             const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${props.id}/check`,{},config);
-            promise.then(() =>
-                setDone(true)
-            ).catch((response) => console.log(response)
+            promise.then(() => {
+                setCurrentSequence(currentSequence + 1);
+                setDone(true);
+            }).catch((response) => console.log(response)
             );
 
             const promiseGoal = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", config);
@@ -55,8 +58,18 @@ export default function Habit (props) {
                 <span>
                     <HabitName>{props.name}</HabitName>
                     <div>
-                        <SequenceText>{`Sequência atual: ${props.currentSequence} dias`}</SequenceText>
-                        <SequenceText>{`Seu recorde: ${props.highestSequence} dias`}</SequenceText>
+                        <SequenceText>
+                            Sequência atual:&nbsp;
+                            <SequenceTextStyle current={currentSequence} highest={0}>
+                                {` ${currentSequence} dias`}
+                            </SequenceTextStyle>
+                        </SequenceText>
+                        <SequenceText>
+                            Seu recorde:&nbsp;
+                            <SequenceTextStyle current={currentSequence} highest={props.highestSequence}>
+                                {` ${props.highestSequence} dias`}
+                            </SequenceTextStyle>
+                        </SequenceText>
                     </div>
                 </span>
                 <Checkbox
@@ -71,7 +84,6 @@ export default function Habit (props) {
 
 const HabitWrapper = styled.li`
     display: flex;
-    /* flex-direction: column;*/
     justify-content: space-between;
     margin-top: 10px;
     padding: 13px;
@@ -99,7 +111,13 @@ const HabitName = styled.p`
     font-size: 20px;
 `;
 
+const SequenceTextStyle =  styled.strong`
+    font-weight: normal;
+    color: ${props => props.current >= props.highest && props.current > 0 ? "#8FC549" : "#666666"};
+`;
+
 const SequenceText = styled.p`
+    display: flex;
     font-size: 13px;
     line-height: 15px;
 `;
